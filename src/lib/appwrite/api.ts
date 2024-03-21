@@ -1,9 +1,7 @@
-import { ID } from 'appwrite';
+import { ID, Query } from 'appwrite';
 
 import {INewUser} from "@/types";
 import { account, appwriteConfig, avatars, databases } from './config';
-import { error } from 'console';
-import { Query } from '@tanstack/react-query';
 
 
 export async function createUserAccount(user: INewUser){
@@ -37,6 +35,9 @@ export  async function saveUserToDB(user :{
    username?: string;
 }){
   try{
+    if(!appwriteConfig.databaseId){
+      throw new  Error("database id is missing in the configure.");
+    }
     const newUser = await databases.createDocument(
        appwriteConfig.databaseId,
        appwriteConfig.userCollectionId,
@@ -46,7 +47,8 @@ export  async function saveUserToDB(user :{
 
     return newUser
   }catch (error){
-       console.log(error);
+       console.log("Error saving user to database", error);
+       throw error
   }
 }
 
@@ -80,4 +82,13 @@ export async function getCurrentUser(){
      } catch (error){
         console.log(error);
      }
+}
+export async function signOutAccount(){
+  try{
+    const session = await account.deleteSession("current")
+
+    return session
+  }catch (error){
+    console.log(error)
+  }
 }
