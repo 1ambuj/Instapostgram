@@ -5,13 +5,13 @@ import { useEffect } from 'react';
 import { useUserContext } from '@/context/AuthContext';
 
 const Topbar = () => {
-    const { mutate: signOut, isSucess } = useSignOutAccount();
+    const { mutate: signOut, isSuccess } = useSignOutAccount();
     const navigate = useNavigate();
     const { user } = useUserContext();
 
     useEffect(()=>{
-        if(isSucess) navigate(0);
-    })
+        if(isSuccess) navigate(0);
+    },[isSuccess])
   return (
     <section className='topbar'>
        <div className='flex-between py-4 px-5'>
@@ -24,8 +24,8 @@ const Topbar = () => {
              />
           </Link>
           <div className='flex gap-4' >
-             <Button variant="ghost" className="shad-button_ghost" onClick={()= signOut()}>
-                <img   src="/"alt="logo"/>
+             <Button variant="ghost" className="shad-button_ghost" onClick={()=> signOut()}>
+                <img   src="/assets/img/"alt="logo"/>
              </Button>
              <Link to={`/profile/${user.id}`} className="flex-center gap-3">
                 <img src={user.imageUrl || 'assets/image/default-avatar'} alt="profile" className='h-8 w-8 rounded fall'/>
