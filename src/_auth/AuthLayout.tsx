@@ -1,8 +1,11 @@
+import { useUserContext } from "@/context/AuthContext"
 import {Outlet , Navigate} from "react-router-dom"
 
 
 function AuthLayout() {
-    const isAuth = false
+    const { user } = useUserContext()
+    console.log({ usera:user })
+    const isAuth = !!user
     return(
         <>
            {
@@ -10,16 +13,14 @@ function AuthLayout() {
                 <Navigate to="/" />
             ):(
              <>
-                <section className="flex flex-1  flex-col   py-10"  >
-                    <Outlet />
-                      
+                <section className="flex flex-1 justify-center items-center flex-col  py-10"  >
+                    <Outlet /> 
                 </section>
 
-                <img src="/assets/img/insta_1.avif" className="hidden xl:block h-screen w-1/2  bg-no-repeat object-cover justify-self-center" />
+                <img src="/assets/img/side-img.svg" className="hidden xl:block h-screen w-1/2  bg-no-repeat object-cover "  alt="logo"/>
                 
 
                
-
             </>
             )
            }

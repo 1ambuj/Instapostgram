@@ -6,13 +6,15 @@ import { checkIsLiked } from "@/lib/utils";
 import { deleteSavedPost } from "@/lib/appwrite/api";
 
 type PostStatsProps = {
-    post:Models.Document;
+    post?:Models.Document;
     userId: string;
 
 }
 
 const PostStats = ({post, userId}:PostStatsProps) => {
-   const likeList = post.likes.map((user:Models.Document) => user.$id) 
+  console.log({ post, userId })
+   const likeList = post?.likes.map((user:Models.Document) => user.$id)
+   
 
    const [likes , setLikes] = useState(likeList)
    const [isSaved, setIsSaved]  = useState(false)
@@ -21,7 +23,7 @@ const PostStats = ({post, userId}:PostStatsProps) => {
    const {mutate: deleteSavedPost , isPending: isDeletingSaved} = useDeleteSavedPost();
    
    const {data : currentUser } = useGetCurrentUser();
-   const savedPostRecord =  currentUser?.save.find((record: Models.Document) => record.post.$id === post.$id)
+   const savedPostRecord =  currentUser?.save.find((record: Models.Document) => record.post.$id === post?.$id)
    useEffect(()=>{
     setIsSaved(savedPostRecord? true : false)
    },[currentUser])
@@ -30,16 +32,17 @@ const PostStats = ({post, userId}:PostStatsProps) => {
    const handleLikePost = (e: React.MouseEvent) =>{
     e.stopPropagation();
    
-    let newLikes = {...likes}
+    let newLikes = [...likes];
     const hasLiked = newLikes.includes(userId);
+    console.log(hasLiked)
     if(hasLiked){
-        newLikes = newLikes.filter((id) => id !== userId);
+        newLikes = newLikes.filter((id: string) => id !== userId);
     }else{
         newLikes.push(userId);
     }
 
     setLikes(newLikes);
-    likePost({postId: post.$id, likesArray: newLikes})
+    likePost({postId: post?.$id || '', likesArray: newLikes})
    }
 
    const handleSavedPost = (e: React.MouseEvent) => {
@@ -59,9 +62,10 @@ const PostStats = ({post, userId}:PostStatsProps) => {
   return (
     <div className="flex justify-between items-center z-20">
          <div className="flex gap-2 mr-5">
+          
           <img src={checkIsLiked(likes, userId) 
             ?"/assets/icons/liked.svg" 
-            : "/assets/icon/like.svg"}
+            : "/assets/icons/like.svg"}
             
                 alt="like" 
                 width={20}

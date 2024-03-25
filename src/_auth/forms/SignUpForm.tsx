@@ -51,11 +51,13 @@ const SignupForm = () => {
       email: values.email,
       password : values.password
      })
+     console.log({ session })
      if(!session){
       return toast({title: 'sign in faild. please try'})
      }
 
      const isLoggedIn = await checkAuthUser();
+     console.log({ isLoggedIn })
      if(isLoggedIn){
        form.reset()
        navigate('/')
@@ -69,7 +71,7 @@ const SignupForm = () => {
    
       <Form {...form}>
             <div className="sm:w-420 flex-center flex-col">
-              <img src="/assets/img/instagram1.png"/>
+              <img src="/assets/img/logo.svg"/>
 
                <h3 className="h3-bold md:h2-bold pt-5 sm:pt-12 ">Create a new account</h3>
                <p className="text-light-3 small-medium md:base-regular"></p>

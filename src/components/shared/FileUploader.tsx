@@ -9,7 +9,7 @@ type FileUploaderProps = {
 
 const FileUploader = ({fieldChange, mediaUrl}: FileUploaderProps) => {
     const [file , setFile] = useState<File[]>([])
-   const[fileUrl, setFileUrl] =  useState("")
+   const[fileUrl, setFileUrl] =  useState( mediaUrl)
     const onDrop = useCallback((acceptedFiles :FileWithPath[])=> {
          setFile(acceptedFiles);
          fieldChange(acceptedFiles)
@@ -39,7 +39,7 @@ const FileUploader = ({fieldChange, mediaUrl}: FileUploaderProps) => {
         ):(
            <div className="file_uploader-box">
               <img 
-              src="/assets/img/file-upload.svg" 
+              src="/assets/icons/file-upload.svg" 
               alt="file-upload" 
               width={96}
               height={77}

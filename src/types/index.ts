@@ -1,5 +1,5 @@
 export  type IContextType = {
-   user: IUser;
+   user?: IUser;
    isLoading: boolean;
    setUser: React.Dispatch<React.SetStateAction<IUser>>;
    isAuthenticated: boolean;

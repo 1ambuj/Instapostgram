@@ -8,7 +8,7 @@ import {Link} from "react-router-dom"
 import PostStats from "./PostStats";
 const PostCard = ({ post }: PostCardProps) => {
     const { user } = useUserContext();
-    console.log(post)
+    console.log({ user })
   
     if (!post.creator) return;
   
@@ -47,7 +47,7 @@ const PostCard = ({ post }: PostCardProps) => {
             to={`/update-post/${post.$id}`}
             className={`${user.id !== post.creator.$id && "hidden"}`}>
             <img
-              src={"/assets/img/edit.svg"}
+              src={"/assets/icons/edit.svg"}
               alt="edit"
               width={20}
               height={20}

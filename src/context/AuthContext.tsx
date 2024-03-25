@@ -15,7 +15,6 @@ export const  INITIAL_USER = {
 
 
 const INITIAL_STATE: Partial<IContextType> = {
-    user : INITIAL_USER,
     isLoading: false,
     isAuthenticated: false,
     setUser: ()=>{},
@@ -24,7 +23,7 @@ const INITIAL_STATE: Partial<IContextType> = {
 const AuthContext = createContext<IContextType>(INITIAL_STATE as IContextType);
 
 const AuthProvider= ({ children }: {children:React.ReactNode}) => {
-    const [user , setUser] = useState<IUser>(INITIAL_USER)
+    const [user , setUser] = useState<IUser>()
     const [isLoading, setIsLoading] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false)
 
@@ -33,6 +32,7 @@ const AuthProvider= ({ children }: {children:React.ReactNode}) => {
     const checkAuthUser = async () => {
        try{
           const currentAccount = await getCurrentUser();
+          console.log({ currentAccount })
           if(currentAccount){
              setUser({ 
                 id: currentAccount.$id, 
@@ -56,9 +56,12 @@ const AuthProvider= ({ children }: {children:React.ReactNode}) => {
        }
     };
     useEffect(()=>{
+       const cookieFallback = localStorage.getItem('cookieFallback') == null 
         if(
-           // localStorage.getItem('cookieFallback') == null 
-          localStorage.getItem('cookieFallback') === '[]' 
+          
+          localStorage.getItem('cookieFallback') === '[]'||
+          cookieFallback === null ||
+          cookieFallback === undefined 
        
           ) navigate('/sign-in')
         checkAuthUser();

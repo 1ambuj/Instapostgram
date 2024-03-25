@@ -8,7 +8,6 @@ import RootLayout from "./_root/RootLayout"
 import { Toaster } from "@/components/ui/toaster"
 import { AllUsers, CreatePost, EditPost, Explore, PostDetails, Profile, Saved, UpdateProfile } from "./_root/pages"
 
-
 function App() {
   return (
     <main className="flex h-screen">
@@ -19,7 +18,7 @@ function App() {
           </Route>
 
             <Route element={<RootLayout />}>
-              <Route index element={<Home />}/>
+              <Route index element={<Home/>}/>
               <Route path="/explore" element={<Explore />} />
               <Route path="/saved" element={<Saved />} />
               <Route path="/all-users" element={< AllUsers/>} />
