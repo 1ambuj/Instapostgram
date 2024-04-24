@@ -44,28 +44,34 @@ const PostForm = ({post, action}: PostFormProps) => {
   async function onSubmit(values: z.infer<typeof PostValidation>) {
      if(post && action === "Update"){
          const updatedPost = await updatePost({
-           ...values,
+          
            postId: post.$id,
-           imageId: post?.imageId,
-           imageUrl: post?.imageUrl,
+           imageId: post.imageId,
+           imageUrl: post.imageUrl,
+           caption:values.caption,
+           file:[]
          })
          if(!updatePost){
            toast({ title: "please try again"})
+         }else{
+          return navigate(`/posts/${post.$id}`)
          }
-         return navigate(`/posts/${post.$id}`)
+         
+     }else{
+      const newPost = await createPost({
+        ...values,
+        userId : user.id
+       })
+       if(!newPost){
+          toast({
+            title: 'please try again'
+          })
+       }
+       navigate("/");
+      }
      }
    
-    const newPost = await createPost({
-    ...values,
-    userId : user.id
-   })
-   if(!newPost){
-      toast({
-        title: 'please try again'
-      })
-   }
-   navigate("/");
-  }
+    
   console.log(post?.imageUrl)
   return (
     <Form {...form}>

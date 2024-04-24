@@ -1,10 +1,4 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-
-
-
-
-
-
 import { multiFormatDateString } from "@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
 import { useDeletePost, useGetPostById } from "@/lib/react-query/queryAndMutations";
@@ -12,19 +6,20 @@ import PostStats from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
 
 const PostDetails = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useUserContext();
+ 
 
   const { data: post, isLoading } = useGetPostById(id || "");
-  const { data: userPosts, isLoading: isUserPostLoading } = useGetUserPosts(
-    post?.creator.$id
-  );
+  // const { data: userPosts, isLoading: isUserPostLoading } = useGetUserPosts(
+  //   post?.creator.$id
+  // );
   const { mutate: deletePost } = useDeletePost();
 
-  const relatedPosts = userPosts?.documents.filter(
-    (userPost) => userPost.$id !== id
-  );
+  // const relatedPosts = userPosts?.documents.filter(
+  //   (userPost) => userPost.$id !== id
+  // );
 
   const handleDeletePost = () => {
     deletePost({ postId: id, imageId: post?.imageId });
@@ -49,7 +44,7 @@ const PostDetails = () => {
       </div>
 
       {isLoading || !post ? (
-        <Loader />
+        <div>Loding...</div>
       ) : (
         <div className="post_details-card">
           <img
